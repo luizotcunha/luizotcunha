@@ -1,12 +1,109 @@
 <!DOCTYPE html>
 <html>
-  <a
-    href="intent://home#Intent;scheme=portalPGC;package=br.com.bradseg.ovsi.indicadores;end"
-    class="btn"
-  >
-    Abrir ovsi</a
-  >
-  <img
-    src="https://blogdafeira.com.br/home/wp-content/uploads/2021/08/csm_Carro_do_ovo_almirolopes_arquivo_correio_e382573003.jpg"
-  />
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Foco vs. Ovos (Mobile)</title>
+
+    <style>
+        /* Estiliza a página inteira para centralizar */
+        body {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         min-height: 100vh;
+         font-family: Arial, sans-serif;
+         background-color: #f0f0f0;
+         text-align: center;
+         padding: 20px;
+         box-sizing: border-box; /* Garante que o padding não quebre o layout */
+        }
+
+        /* Estiliza o link "Abrir ovsi" como um botão sério */
+        .btn {
+         display: inline-block;
+         padding: 25px 50px;
+         font-size: 24px; /* Um pouco menor para caber em telas pequenas */
+         font-weight: bold;
+         color: white;
+         background-color: #004a91; /* Um azul corporativo */
+         border: none;
+         border-radius: 10px;
+         text-decoration: none;
+         cursor: pointer;
+         transition: all 0.2s ease-in-out;
+         z-index: 10;
+         position: relative;
+         margin-bottom: 30px; /* Espaço entre o botão e a imagem */
+        }
+
+        /* O carro do ovo */
+        img {
+         width: 100%; /* Ocupa a largura total do container (body) */
+         max-width: 700px; /* Mas não passa de 400px em telas grandes */
+         height: auto; /* Mantém a proporção */
+         border-radius: 15px;
+         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+         position: relative;
+
+         /*     PIADA CONSTANTE:
+          O carro do ovo fica "pulsando" devagar o tempo todo.
+         */
+         animation: pulse 3s infinite ease-in-out;
+        }
+
+        /*   * A PIADA NO MOBILE (E DESKTOP):
+        * Quando o usuário PRESSIONA E SEGURA (.btn:active),
+        * a imagem do ovo treme violentamente.
+        */
+        .btn:active + img {
+         /* Sobrescreve a animação "pulse" pela "shake" */
+         animation: shake 0.5s infinite;
+        }
+
+        /* Bônus para Desktop: se só passar o mouse, ele pulsa mais rápido */
+        @media (hover: hover) {
+         .btn:hover + img {
+          animation: pulse 1s infinite ease-in-out;
+         }
+        }
+
+        /* Animação de "pulsar" (para chamar atenção) */
+        @keyframes pulse {
+         0% { transform: scale(1); }
+         50% { transform: scale(1.03); } /* Cresce só um pouquinho */
+         100% { transform: scale(1); }
+        }
+
+        /* Animação de "tremer" (quando o botão é pressionado) */
+        @keyframes shake {
+         0% { transform: translate(1px, 1px) rotate(0deg); }
+         10% { transform: translate(-1px, -2px) rotate(-1deg); }
+         20% { transform: translate(-3px, 0px) rotate(1deg); }
+         30% { transform: translate(3px, 2px) rotate(0deg); }
+         40% { transform: translate(1px, -1px) rotate(1deg); }
+         50% { transform: translate(-1px, 2px) rotate(-1deg); }
+         60% { transform: translate(-3px, 1px) rotate(0deg); }
+         70% { transform: translate(3px, 1px) rotate(-1deg); }
+         80% { transform: translate(-1px, -1px) rotate(1deg); }
+         90% { transform: translate(1px, 2px) rotate(0deg); }
+         100% { transform: translate(1px, -2px) rotate(-1deg); }
+      D }
+    </style>
+  </head>
+  <body>
+    <a
+      href="intent://home#Intent;scheme=portalPGC;package=br.com.bradseg.ovsi.indicadores;end"
+      class="btn"
+    >
+      Abrir ovsi</a
+    >
+
+    <img
+      src="https://blogdafeira.com.br/home/wp-content/uploads/2021/08/csm_Carro_do_ovo_almirolopes_arquivo_correio_e382573003.jpg"
+    />
+  </body>
 </html>
