@@ -2,108 +2,273 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Foco vs. Ovos (Mobile)</title>
-
     <style>
-        /* Estiliza a página inteira para centralizar */
-        body {
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         justify-content: center;
-         min-height: 100vh;
-         font-family: Arial, sans-serif;
-         background-color: #f0f0f0;
-         text-align: center;
-         padding: 20px;
-         box-sizing: border-box; /* Garante que o padding não quebre o layout */
-        }
+      /* Estiliza a página inteira para centralizar */
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box; /* Garante que o padding não quebre o layout */
 
-        /* Estiliza o link "Abrir ovsi" como um botão sério */
-        .btn {
-         display: inline-block;
-         padding: 25px 50px;
-         font-size: 24px; /* Um pouco menor para caber em telas pequenas */
-         font-weight: bold;
-         color: white;
-         background-color: #004a91; /* Um azul corporativo */
-         border: none;
-         border-radius: 10px;
-         text-decoration: none;
-         cursor: pointer;
-         transition: all 0.2s ease-in-out;
-         z-index: 10;
-         position: relative;
-         margin-bottom: 30px; /* Espaço entre o botão e a imagem */
-        }
+        /* Importante: Evita a barra de rolagem horizontal causada pela animação */
+        overflow-x: hidden;
+      }
 
-        /* O carro do ovo */
-        img {
-         width: 100%; /* Ocupa a largura total do container (body) */
-         max-width: 700px; /* Mas não passa de 400px em telas grandes */
-         height: auto; /* Mantém a proporção */
-         border-radius: 15px;
-         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-         position: relative;
+      /* == NOVOS ESTILOS PARA OS CONTROLES == */
+      .controles {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 25px;
+        width: 100%;
+        max-width: 700px;
+        box-sizing: border-box;
+      }
 
-         /*     PIADA CONSTANTE:
-          O carro do ovo fica "pulsando" devagar o tempo todo.
-         */
-         animation: pulse 3s infinite ease-in-out;
-        }
+      .controles label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+      }
 
-        /*   * A PIADA NO MOBILE (E DESKTOP):
-        * Quando o usuário PRESSIONA E SEGURA (.btn:active),
-        * a imagem do ovo treme violentamente.
-        */
-        .btn:active + img {
-         /* Sobrescreve a animação "pulse" pela "shake" */
-         animation: shake 0.5s infinite;
-        }
+      .controles input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+      }
 
-        /* Bônus para Desktop: se só passar o mouse, ele pulsa mais rápido */
-        @media (hover: hover) {
-         .btn:hover + img {
+      /* Botão secundário (para atualizar) */
+      .btn-secundario {
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        background-color: #007bff; /* Azul diferente */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        margin-bottom: 15px;
+      }
+      .btn-secundario:hover {
+        background-color: #0056b3;
+      }
+
+      .controles p {
+        margin: 10px 0 5px 0;
+        font-weight: bold;
+        color: #555;
+      }
+
+      /* Mostrador do Href */
+      #displayHref {
+        display: block;
+        background-color: #eee;
+        padding: 10px;
+        border-radius: 5px;
+        font-family: "Courier New", Courier, monospace;
+        color: #d63384; /* Cor de destaque */
+        word-wrap: break-word; /* Quebra a linha se for muito longo */
+        word-break: break-all;
+        text-align: left;
+      }
+      /* == FIM DOS NOVOS ESTILOS == */
+
+      /* Estiliza o link "Abrir ovsi" como um botão sério */
+      .btn {
+        display: inline-block;
+        padding: 25px 50px;
+        font-size: 24px; /* Um pouco menor para caber em telas pequenas */
+        font-weight: bold;
+        color: white;
+        background-color: #004a91; /* Um azul corporativo */
+        border: none;
+        border-radius: 10px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        z-index: 10;
+        position: relative;
+        margin-bottom: 30px; /* Espaço entre o botão e a imagem */
+      }
+
+      /* --- INÍCIO DAS MUDANÇAS --- */
+
+      /* Novo: Wrapper para a imagem */
+      .img-wrapper {
+        width: 100%;
+        max-width: 700px; /* Mesmo max-width da imagem */
+
+        /* Aplica a animação de andar */
+        /* Duração de 15s, velocidade constante (linear), e repete infinito */
+        animation: andarHorizontal 15s linear infinite;
+      }
+
+      /* O carro do ovo (imagem interna) */
+      /* Seletor alterado de 'img' para '.img-wrapper img' */
+      .img-wrapper img {
+        width: 100%;
+        height: auto; /* Mantém a proporção */
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        position: relative;
+        /* A imagem interna continua com o pulse */
+        animation: pulse 3s infinite ease-in-out;
+      }
+
+      /* * A PIADA NO MOBILE (E DESKTOP):
+       * Seletor alterado de '.btn:active + img' 
+       * para '.btn:active + .img-wrapper img'
+       */
+      .btn:active + .img-wrapper img {
+        animation: shake 0.5s infinite;
+      }
+
+      /* Bônus para Desktop: se só passar o mouse, ele pulsa mais rápido */
+      @media (hover: hover) {
+        /* Seletor alterado de '.btn:hover + img' para '.btn:hover + .img-wrapper img' */
+        .btn:hover + .img-wrapper img {
           animation: pulse 1s infinite ease-in-out;
-         }
         }
+      }
 
-        /* Animação de "pulsar" (para chamar atenção) */
-        @keyframes pulse {
-         0% { transform: scale(1); }
-         50% { transform: scale(1.03); } /* Cresce só um pouquinho */
-         100% { transform: scale(1); }
+      /* --- FIM DAS MUDANÇAS --- */
+
+      /* Animação de "pulsar" (para chamar atenção) */
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
         }
+        50% {
+          transform: scale(1.03);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
 
-        /* Animação de "tremer" (quando o botão é pressionado) */
-        @keyframes shake {
-         0% { transform: translate(1px, 1px) rotate(0deg); }
-         10% { transform: translate(-1px, -2px) rotate(-1deg); }
-         20% { transform: translate(-3px, 0px) rotate(1deg); }
-         30% { transform: translate(3px, 2px) rotate(0deg); }
-         40% { transform: translate(1px, -1px) rotate(1deg); }
-         50% { transform: translate(-1px, 2px) rotate(-1deg); }
-         60% { transform: translate(-3px, 1px) rotate(0deg); }
-         70% { transform: translate(3px, 1px) rotate(-1deg); }
-         80% { transform: translate(-1px, -1px) rotate(1deg); }
-         90% { transform: translate(1px, 2px) rotate(0deg); }
-         100% { transform: translate(1px, -2px) rotate(-1deg); }
-      D }
+      /* Animação de "tremer" (quando o botão é pressionado) */
+      @keyframes shake {
+        0% {
+          transform: translate(1px, 1px) rotate(0deg);
+        }
+        10% {
+          transform: translate(-1px, -2px) rotate(-1deg);
+        }
+        20% {
+          transform: translate(-3px, 0px) rotate(1deg);
+        }
+        30% {
+          transform: translate(3px, 2px) rotate(0deg);
+        }
+        40% {
+          transform: translate(1px, -1px) rotate(1deg);
+        }
+        50% {
+          transform: translate(-1px, 2px) rotate(-1deg);
+        }
+        60% {
+          transform: translate(-3px, 1px) rotate(0deg);
+        }
+        70% {
+          transform: translate(3px, 1px) rotate(-1deg);
+        }
+        80% {
+          transform: translate(-1px, -1px) rotate(1deg);
+        }
+        90% {
+          transform: translate(1px, 2px) rotate(0deg);
+        }
+        100% {
+          transform: translate(1px, -2px) rotate(-1deg);
+        }
+      }
+
+      /* == NOVA ANIMAÇÃO DE ANDAR == */
+      @keyframes andarHorizontal {
+        0% {
+          /* Começa totalmente fora da tela à esquerda */
+          transform: translateX(-100vw);
+        }
+        100% {
+          /* Termina totalmente fora da tela à direita */
+          transform: translateX(100vw);
+        }
+      }
     </style>
   </head>
   <body>
+    <div class="controles">
+      <label for="paginaInput">Página do Intent (ex: home, outraPagina):</label>
+      <input type="text" id="paginaInput" value="home" />
+
+      <button id="atualizarBtn" class="btn-secundario">Atualizar Link</button>
+
+      <p>Tentará acessar:</p>
+      <code id="displayHref"></code>
+    </div>
+
     <a
+      id="mainLink"
       href="intent://home#Intent;scheme=portalPGC;package=br.com.bradseg.ovsi.indicadores;end"
       class="btn"
     >
-      Abrir ovsi</a
-    >
+      Abrir ovsi
+    </a>
 
-    <img
-      src="https://blogdafeira.com.br/home/wp-content/uploads/2021/08/csm_Carro_do_ovo_almirolopes_arquivo_correio_e382573003.jpg"
-    />
+    <div class="img-wrapper">
+      <img
+        src="https://i.ytimg.com/vi/1STszjtCgn4/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAbOBykkYyhhzVIce1qiLNZNCx5Uw"
+      />
+    </div>
+
+    <script>
+      // 1. Seleciona os elementos que vamos usar
+      const mainLink = document.getElementById("mainLink");
+      const paginaInput = document.getElementById("paginaInput");
+      const atualizarBtn = document.getElementById("atualizarBtn");
+      const displayHref = document.getElementById("displayHref");
+
+      // 2. Define a parte da URL que NUNCA muda
+      const baseUrl =
+        "#Intent;scheme=portalPGC;package=br.com.bradseg.ovsi.indicadores;end";
+
+      // 3. Cria a função que atualiza o link
+      function atualizarLink() {
+        // Pega o valor do input, remove espaços em branco,
+        // ou usa 'home' como padrão se estiver vazio
+        const pagina = paginaInput.value.trim() || "home";
+
+        // 4. Monta o novo href completo
+        const novoHref = `intent://${pagina}${baseUrl}`;
+
+        // 5. Atualiza o link principal
+        mainLink.href = novoHref;
+
+        // 6. Atualiza o texto do mostrador
+        displayHref.textContent = novoHref;
+      }
+
+      // 7. Adiciona o evento de clique ao botão "Atualizar Link"
+      atualizarBtn.addEventListener("click", atualizarLink);
+
+      // 8. Chama a função uma vez assim que a página carrega
+      // para garantir que o mostrador já apareça com o valor inicial ("home")
+      document.addEventListener("DOMContentLoaded", atualizarLink);
+    </script>
   </body>
 </html>
