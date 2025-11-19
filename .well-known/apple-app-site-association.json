@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "LLRH678QL5.br.com.bradseg.ovsi.indicadores",
+        "paths": ["/tabs/*"]
+      }
+    ]
+  }
+}
